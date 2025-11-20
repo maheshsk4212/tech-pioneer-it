@@ -21,9 +21,9 @@ import { CommonModule } from '@angular/common';
           <nav class="hidden md:flex space-x-8">
             <a *ngFor="let item of navItems" 
                [routerLink]="item.path" 
-               routerLinkActive="text-accent font-semibold"
+               routerLinkActive="active-link"
                [routerLinkActiveOptions]="{exact: item.path === '/'}"
-               class="text-secondary hover:text-accent transition-colors duration-200 text-sm font-medium uppercase tracking-wide">
+               class="nav-link text-secondary hover:text-accent transition-colors duration-300 text-sm font-medium uppercase tracking-wide relative">
               {{ item.label }}
             </a>
           </nav>
@@ -57,7 +57,37 @@ import { CommonModule } from '@angular/common';
     <!-- Spacer for fixed header -->
     <div class="h-20"></div>
   `,
-  styles: []
+  styles: [`
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, #06b6d4);
+      transition: transform 0.3s ease-in-out;
+      transform-origin: center;
+    }
+    
+    .nav-link:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    .nav-link.active-link::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    .nav-link.active-link {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+  `]
 })
 export class HeaderComponent {
   isMobileMenuOpen = signal(false);
