@@ -1,0 +1,138 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-services',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  template: `
+    <!-- Hero Section -->
+    <section class="relative bg-secondary py-24 text-white overflow-hidden">
+      <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
+      <div class="container mx-auto px-4 relative z-10 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-slide-up">Our Services</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto animate-fade-in">
+          Comprehensive IT solutions and staffing services designed to propel your business forward.
+        </p>
+      </div>
+    </section>
+
+    <!-- IT Staffing -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2">
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop" 
+                 alt="IT Staffing" 
+                 class="rounded-2xl shadow-lg w-full object-cover h-[400px]">
+          </div>
+          <div class="md:w-1/2">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-primary mb-4">IT Staffing Services</h2>
+            <p class="text-secondary text-lg mb-6">
+              Finding the right talent is the key to success. As a preferred technology staffing agency in Northern Virginia, we bridge the gap between your needs and top-tier talent.
+            </p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center text-secondary">
+                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Highly skilled Technical Professionals
+              </li>
+              <li class="flex items-center text-secondary">
+                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Developers & Engineers
+              </li>
+              <li class="flex items-center text-secondary">
+                <svg class="w-5 h-5 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                System Administrators & Help Desk
+              </li>
+            </ul>
+            <a routerLink="/contact" class="text-accent font-semibold hover:text-accent-hover">Hire Talent &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IT Solutions -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+          <div class="md:w-1/2">
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop" 
+                 alt="IT Solutions" 
+                 class="rounded-2xl shadow-lg w-full object-cover h-[400px]">
+          </div>
+          <div class="md:w-1/2">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-primary mb-4">Custom IT Solutions</h2>
+            <p class="text-secondary text-lg mb-6">
+              We empower your business with the tools and support needed to stay ahead in an emerging market. Our partnership approach ensures you get the right level of technical support.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                <h4 class="font-bold text-primary mb-1">Collaboration</h4>
+                <p class="text-sm text-gray-500">Seamless team integration tools.</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                <h4 class="font-bold text-primary mb-1">CRM</h4>
+                <p class="text-sm text-gray-500">Customer relationship management.</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                <h4 class="font-bold text-primary mb-1">Data Analysis</h4>
+                <p class="text-sm text-gray-500">Insights driven by data.</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                <h4 class="font-bold text-primary mb-1">Info Security</h4>
+                <p class="text-sm text-gray-500">Protecting your digital assets.</p>
+              </div>
+            </div>
+            <a routerLink="/contact" class="text-accent font-semibold hover:text-accent-hover">Get a Quote &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-primary mb-12">Technologies We Master</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+          <!-- Placeholders for logos - using text for now -->
+          <div class="flex items-center justify-center p-4 border rounded-lg hover:shadow-md hover:border-accent transition-all">
+            <span class="font-bold text-xl">Microsoft</span>
+          </div>
+          <div class="flex items-center justify-center p-4 border rounded-lg hover:shadow-md hover:border-accent transition-all">
+            <span class="font-bold text-xl">IBM</span>
+          </div>
+          <div class="flex items-center justify-center p-4 border rounded-lg hover:shadow-md hover:border-accent transition-all">
+            <span class="font-bold text-xl">Oracle</span>
+          </div>
+          <div class="flex items-center justify-center p-4 border rounded-lg hover:shadow-md hover:border-accent transition-all">
+            <span class="font-bold text-xl">Angular</span>
+          </div>
+          <div class="flex items-center justify-center p-4 border rounded-lg hover:shadow-md hover:border-accent transition-all">
+            <span class="font-bold text-xl">React</span>
+          </div>
+           <div class="flex items-center justify-center p-4 border rounded-lg hover:shadow-md hover:border-accent transition-all">
+            <span class="font-bold text-xl">Node.js</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  `
+})
+export class ServicesComponent { }
