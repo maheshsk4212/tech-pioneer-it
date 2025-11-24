@@ -87,7 +87,7 @@ import { RouterLink } from '@angular/router';
                 <h4 class="text-xl font-bold text-primary mb-2">1. Inquiry & Discovery</h4>
                 <p class="text-secondary">We listen. Whether you have a detailed spec or just a spark of an idea, we're here to discuss it. No idea is dismissed.</p>
               </div>
-              <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
+              <div class="relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
                 <span class="text-white font-bold text-sm">1</span>
               </div>
               <div class="md:w-5/12 order-3"></div>
@@ -96,7 +96,7 @@ import { RouterLink } from '@angular/router';
             <!-- Step 2 -->
             <div class="relative flex flex-col md:flex-row items-center justify-between">
               <div class="md:w-5/12 order-3 md:order-1"></div>
-              <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
+              <div class="relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
                 <span class="text-white font-bold text-sm">2</span>
               </div>
               <div class="md:w-5/12 text-center md:text-left order-2 md:order-3">
@@ -111,7 +111,7 @@ import { RouterLink } from '@angular/router';
                 <h4 class="text-xl font-bold text-primary mb-2">3. Specification & Blueprint</h4>
                 <p class="text-secondary">We define the deliverables. Instead of long-winded documents, we often use wireframes to visualize key features early.</p>
               </div>
-              <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
+              <div class="relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
                 <span class="text-white font-bold text-sm">3</span>
               </div>
               <div class="md:w-5/12 order-3"></div>
@@ -120,7 +120,7 @@ import { RouterLink } from '@angular/router';
             <!-- Step 4 -->
             <div class="relative flex flex-col md:flex-row items-center justify-between">
               <div class="md:w-5/12 order-3 md:order-1"></div>
-              <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
+              <div class="relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
                 <span class="text-white font-bold text-sm">4</span>
               </div>
               <div class="md:w-5/12 text-center md:text-left order-2 md:order-3">
@@ -135,7 +135,7 @@ import { RouterLink } from '@angular/router';
                 <h4 class="text-xl font-bold text-primary mb-2">5. Development</h4>
                 <p class="text-secondary">We build using modern frameworks to deliver robust, scalable projects on shorter deadlines without compromising quality.</p>
               </div>
-              <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
+              <div class="relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
                 <span class="text-white font-bold text-sm">5</span>
               </div>
               <div class="md:w-5/12 order-3"></div>
@@ -144,7 +144,7 @@ import { RouterLink } from '@angular/router';
              <!-- Step 6 -->
             <div class="relative flex flex-col md:flex-row items-center justify-between">
               <div class="md:w-5/12 order-3 md:order-1"></div>
-              <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
+              <div class="relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2 w-10 h-10 bg-accent rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
                 <span class="text-white font-bold text-sm">6</span>
               </div>
               <div class="md:w-5/12 text-center md:text-left order-2 md:order-3">
@@ -159,7 +159,7 @@ import { RouterLink } from '@angular/router';
                 <h4 class="text-xl font-bold text-primary mb-2">7. Go Live!</h4>
                 <p class="text-secondary">The launch. We handle the deployment, and all that remains is for you to hit the button and start growing.</p>
               </div>
-              <div class="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-green-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
+              <div class="relative md:absolute md:left-1/2 md:transform md:-translate-x-1/2 w-10 h-10 bg-green-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center z-10 order-1 md:order-2 mb-4 md:mb-0">
                 <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
