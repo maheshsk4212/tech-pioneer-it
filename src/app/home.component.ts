@@ -10,11 +10,11 @@ import { CommonModule } from '@angular/common';
     <!-- Hero Section -->
     <section class="relative bg-primary text-white overflow-hidden">
       <!-- Video Background -->
-      <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-50">
+      <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
         <source src="/videos/hero-bg.mp4" type="video/mp4">
       </video>
       <!-- Dark Overlay -->
-      <div class="absolute inset-0 bg-primary/50"></div>
+      <div class="absolute inset-0 bg-primary/30"></div>
       
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative py-32 lg:py-48">
         <div class="max-w-3xl animate-slide-up">

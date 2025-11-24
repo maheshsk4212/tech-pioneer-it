@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ToastService } from './services/toast.service';
+import { EmailJSService } from './services/emailjs.service';
 
 @Component({
   selector: 'app-careers',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   template: `
     <!-- Hero Section -->
     <section class="relative bg-primary py-24 text-white overflow-hidden">
@@ -63,21 +65,101 @@ import { RouterLink } from '@angular/router';
     <!-- Contact for Careers -->
     <section class="py-20 bg-gray-50">
       <div class="container mx-auto px-4">
-        <div class="bg-white rounded-2xl shadow-sm p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
-          <div class="mb-8 md:mb-0">
-            <h3 class="text-2xl font-bold text-primary mb-2">Don't see a matching role?</h3>
-            <p class="text-secondary">We are always looking for talent. Send us your resume.</p>
-          </div>
-          <div class="text-center md:text-right">
-             <p class="text-lg font-semibold text-primary mb-2">USA Headquarters</p>
-             <p class="text-secondary mb-4">13800 Coppermine Road, 1st Floor – 2377,<br>Herndon, VA 20171</p>
-             <a href="mailto:info@techpioneerit.com" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-accent hover:bg-accent-hover transition-colors">
-               Email Your Resume
-             </a>
+        <div class="bg-white rounded-2xl shadow-sm p-8 md:p-12">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 class="text-2xl font-bold text-primary mb-4">Don't see a matching role?</h3>
+              <p class="text-secondary mb-6">We are always looking for talent. Fill out the form below to send us your application directly.</p>
+              
+              <div class="mt-8">
+                <p class="text-lg font-semibold text-primary mb-2">USA Headquarters</p>
+                <p class="text-secondary">13800 Coppermine Road, 1st Floor – 2377,<br>Herndon, VA 20171</p>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 p-8 rounded-xl">
+              <form (ngSubmit)="onSubmit(careerForm)" #careerForm="ngForm" class="space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-secondary mb-2">Full Name <span class="text-red-500">*</span></label>
+                  <input type="text" [(ngModel)]="formData.name" name="name" required #name="ngModel"
+                    [class.border-red-500]="name.invalid && (name.dirty || name.touched)"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="Your Name">
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-red-500 text-sm mt-1">
+                    Name is required.
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-secondary mb-2">Email Address <span class="text-red-500">*</span></label>
+                  <input type="email" [(ngModel)]="formData.email" name="email" required email #email="ngModel"
+                    [class.border-red-500]="email.invalid && (email.dirty || email.touched)"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="your.email@example.com">
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-red-500 text-sm mt-1">
+                    <span *ngIf="email.errors?.['required']">Email is required.</span>
+                    <span *ngIf="email.errors?.['email']">Please enter a valid email.</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-secondary mb-2">Phone Number</label>
+                  <input type="tel" [(ngModel)]="formData.phone" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="(123) 456-7890">
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-secondary mb-2">Cover Letter / Message <span class="text-red-500">*</span></label>
+                  <textarea rows="4" [(ngModel)]="formData.message" name="message" required #message="ngModel"
+                    [class.border-red-500]="message.invalid && (message.dirty || message.touched)"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="Tell us about yourself..."></textarea>
+                  <div *ngIf="message.invalid && (message.dirty || message.touched)" class="text-red-500 text-sm mt-1">
+                    Message is required.
+                  </div>
+                </div>
+
+                <button type="submit" [disabled]="isSubmitting"
+                  [class.opacity-50]="isSubmitting"
+                  [class.cursor-not-allowed]="isSubmitting"
+                  class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-4 rounded-lg transition-colors shadow-lg hover:shadow-accent/25">
+                  {{ isSubmitting ? 'Sending...' : 'Send Application' }}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </section>
   `
 })
-export class CareersComponent { }
+export class CareersComponent {
+  private toastService = inject(ToastService);
+  private emailJSService = inject(EmailJSService);
+  isSubmitting = false;
+
+  formData = {
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  };
+
+  async onSubmit(form: any) {
+    if (form.invalid) {
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].markAsTouched();
+      });
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    const result = await this.emailJSService.sendCareerEmail(this.formData);
+
+    if (result.success) {
+      this.toastService.show(result.message, 'success', 5000);
+      form.resetForm();
+    } else {
+      this.toastService.show(result.message, 'error', 5000);
+    }
+
+    this.isSubmitting = false;
+  }
+}

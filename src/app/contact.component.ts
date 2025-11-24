@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+nimport { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ToastService } from './services/toast.service';
+import { EmailJSService } from './services/emailjs.service';
 
 @Component({
   selector: 'app-contact',
@@ -63,30 +65,54 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
           <!-- Contact Form -->
           <div class="bg-white rounded-2xl shadow-lg p-8">
-            <form class="space-y-6">
+            <form (ngSubmit)="onSubmit(contactForm)" #contactForm="ngForm" class="space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-sm font-medium text-secondary mb-2">First Name</label>
-                  <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="John">
+                  <label class="block text-sm font-medium text-secondary mb-2">First Name <span class="text-red-500">*</span></label>
+                  <input type="text" [(ngModel)]="formData.firstName" name="firstName" required #firstName="ngModel"
+                    [class.border-red-500]="firstName.invalid && (firstName.dirty || firstName.touched)"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="John">
+                  <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="text-red-500 text-sm mt-1">
+                    First name is required.
+                  </div>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-secondary mb-2">Last Name</label>
-                  <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="Doe">
+                  <label class="block text-sm font-medium text-secondary mb-2">Last Name <span class="text-red-500">*</span></label>
+                  <input type="text" [(ngModel)]="formData.lastName" name="lastName" required #lastName="ngModel"
+                    [class.border-red-500]="lastName.invalid && (lastName.dirty || lastName.touched)"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="Doe">
+                  <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-red-500 text-sm mt-1">
+                    Last name is required.
+                  </div>
                 </div>
               </div>
               
               <div>
-                <label class="block text-sm font-medium text-secondary mb-2">Email Address</label>
-                <input type="email" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="john@example.com">
+                <label class="block text-sm font-medium text-secondary mb-2">Email Address <span class="text-red-500">*</span></label>
+                <input type="email" [(ngModel)]="formData.email" name="email" required email #email="ngModel"
+                  [class.border-red-500]="email.invalid && (email.dirty || email.touched)"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="john@example.com">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-red-500 text-sm mt-1">
+                  <span *ngIf="email.errors?.['required']">Email is required.</span>
+                  <span *ngIf="email.errors?.['email']">Please enter a valid email.</span>
+                </div>
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-secondary mb-2">Message</label>
-                <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="How can we help you?"></textarea>
+                <label class="block text-sm font-medium text-secondary mb-2">Message <span class="text-red-500">*</span></label>
+                <textarea rows="4" [(ngModel)]="formData.message" name="message" required #message="ngModel"
+                  [class.border-red-500]="message.invalid && (message.dirty || message.touched)"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="How can we help you?"></textarea>
+                <div *ngIf="message.invalid && (message.dirty || message.touched)" class="text-red-500 text-sm mt-1">
+                  Message is required.
+                </div>
               </div>
 
-              <button type="submit" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-4 rounded-lg transition-colors shadow-lg hover:shadow-accent/25">
-                Send Message
+              <button type="submit" [disabled]="isSubmitting"
+                [class.opacity-50]="isSubmitting"
+                [class.cursor-not-allowed]="isSubmitting"
+                class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-4 rounded-lg transition-colors shadow-lg hover:shadow-accent/25">
+                {{ isSubmitting ? 'Sending...' : 'Send Message' }}
               </button>
             </form>
           </div>
@@ -109,11 +135,43 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class ContactComponent {
   private sanitizer = inject(DomSanitizer);
+  private toastService = inject(ToastService);
+  private emailJSService = inject(EmailJSService);
   mapUrl: SafeResourceUrl;
+  isSubmitting = false;
+
+  formData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    message: ''
+  };
 
   constructor() {
     // Simplified URL without timestamp parameter
     const url = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.0!2d-77.4137546846475!3d38.9465509795637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b6474f25bae887%3A0x7c6b8c8c8c8c8c8c!2s13800%20Coppermine%20Rd%2C%20Herndon%2C%20VA%2020171%2C%20USA!5e0!3m2!1sen!2sus';
     this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  async onSubmit(form: any) {
+    if (form.invalid) {
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].markAsTouched();
+      });
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    const result = await this.emailJSService.sendContactEmail(this.formData);
+
+    if (result.success) {
+      this.toastService.show(result.message, 'success', 5000);
+      form.resetForm();
+    } else {
+      this.toastService.show(result.message, 'error', 5000);
+    }
+
+    this.isSubmitting = false;
   }
 }
