@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "security:audit": "npm audit && echo '\\nRun npm audit fix to fix vulnerabilities'",
     "serve:ssr:tech-pioneer-it": "node dist/tech-pioneer-it/server/server.mjs"
   },
   "prettier": {

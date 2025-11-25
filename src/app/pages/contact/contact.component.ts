@@ -25,7 +25,10 @@ export class ContactComponent {
   };
 
   constructor() {
-    // Simplified URL without timestamp parameter
+    // SECURITY: bypassSecurityTrustResourceUrl is safe here because:
+    // 1. The URL is hardcoded (not user input)
+    // 2. It's a trusted Google Maps embed URL
+    // 3. We control the URL value (no dynamic parameters from user input)
     const url = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.0!2d-77.4137546846475!3d38.9465509795637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b6474f25bae887%3A0x7c6b8c8c8c8c8c8c!2s13800%20Coppermine%20Rd%2C%20Herndon%2C%20VA%2020171%2C%20USA!5e0!3m2!1sen!2sus';
     this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }

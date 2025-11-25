@@ -2,4 +2,55 @@
   command = "npm run build"
   publish = "dist/tech-pioneer-it/browser"
 
+# Security Headers - Protects against XSS, clickjacking, and other attacks
+[[headers]]
+  for = "/*"
+  
+  [headers.values]
+    # Content Security Policy - Prevents XSS attacks
+    # Allows scripts, styles, and resources only from trusted sources
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdn.emailjs.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https: http:;
+      connect-src 'self' https://api.emailjs.com https://*.googleapis.com;
+      frame-src 'self' https://www.google.com https://maps.google.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    """
+    
+    # Prevents clickjacking attacks
+    X-Frame-Options = "DENY"
+    
+    # Prevents MIME-sniffing attacks
+    X-Content-Type-Options = "nosniff"
+    
+    # Controls how much referrer information is shared
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Restricts browser features and APIs
+    Permissions-Policy = """
+      geolocation=(),
+      microphone=(),
+      camera=(),
+      payment=(),
+      usb=(),
+      magnetometer=(),
+      gyroscope=(),
+      accelerometer=()
+    """
+    
+    # Enables browser XSS protection
+    X-XSS-Protection = "1; mode=block"
 
+# Force HTTPS redirect
+[[redirects]]
+  from = "http://*"
+  to = "https://:splat"
+  status = 301
+  force = true

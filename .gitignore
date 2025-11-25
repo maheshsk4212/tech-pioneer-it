@@ -1,4 +1,4 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# .gitignore
 
 # Compiled output
 /dist
@@ -19,8 +19,6 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-
-# Visual Studio Code
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -36,8 +34,20 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-__screenshots__/
 
 # System files
 .DS_Store
 Thumbs.db
+
+# Security - never commit these!
+*.env
+*.env.local
+*.env.production
+.env.*.local
+secrets.json
+*.key
+*.pem
+*.p12
+
+# Local Netlify folder
+.netlify
