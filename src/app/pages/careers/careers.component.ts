@@ -1,13 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ToastService } from './services/toast.service';
-import { EmailJSService } from './services/emailjs.service';
+import { ToastService } from '../../core/services/toast.service';
+import { EmailJSService } from '../../core/services/emailjs.service';
 
 @Component({
   selector: 'app-careers',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: false,
   templateUrl: './careers.component.html'
 })
 export class CareersComponent {

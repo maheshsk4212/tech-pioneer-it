@@ -2,13 +2,12 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ToastService } from './services/toast.service';
-import { EmailJSService } from './services/emailjs.service';
+import { ToastService } from '../../core/services/toast.service';
+import { EmailJSService } from '../../core/services/emailjs.service';
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: false,
   templateUrl: './contact.component.html'
 })
 export class ContactComponent {

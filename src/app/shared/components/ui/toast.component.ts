@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToastService } from '../../services/toast.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
-    selector: 'app-toast',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'app-toast',
+  standalone: false,
+  template: `
     <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
       @for (toast of toastService.toasts(); track toast.id) {
         <div 
@@ -44,18 +43,18 @@ import { animate, style, transition, trigger } from '@angular/animations';
       }
     </div>
   `,
-    animations: [
-        trigger('slideIn', [
-            transition(':enter', [
-                style({ transform: 'translateX(100%)', opacity: 0 }),
-                animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
-            ]),
-            transition(':leave', [
-                animate('200ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 }))
-            ])
-        ])
-    ]
+  animations: [
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class ToastComponent {
-    toastService = inject(ToastService);
+  toastService = inject(ToastService);
 }

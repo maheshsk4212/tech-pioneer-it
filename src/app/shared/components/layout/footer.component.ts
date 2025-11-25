@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-footer',
-  standalone: true,
-  imports: [RouterLink, CommonModule],
+  standalone: false,
   template: `
     <footer class="bg-primary text-white pt-16 pb-8">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">

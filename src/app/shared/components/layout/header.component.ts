@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  standalone: false,
   template: `
     <header class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
