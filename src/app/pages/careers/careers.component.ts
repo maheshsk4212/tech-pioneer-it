@@ -16,8 +16,27 @@ export class CareersComponent {
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
+    resume: null as any // To store the file data
   };
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        this.toastService.show('File size should not exceed 5MB', 'error', 3000);
+        event.target.value = '';
+        this.formData.resume = null;
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.formData.resume = e.target.result; // Base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   async onSubmit(form: any) {
     if (form.invalid) {

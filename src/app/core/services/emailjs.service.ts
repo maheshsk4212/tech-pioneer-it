@@ -55,6 +55,7 @@ export class EmailJSService {
         email: string;
         phone: string;
         message: string;
+        resume: any;
     }): Promise<{ success: boolean; message: string }> {
         try {
             const templateParams = {
@@ -62,6 +63,7 @@ export class EmailJSService {
                 from_email: formData.email,
                 phone: formData.phone,
                 message: formData.message,
+                resume: formData.resume, // Pass the Base64 string or file data
                 to_email: 'ss7690080@gmail.com'
             };
 
