@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           <!-- Company Info -->
           <div>
-            <img src="/images/logo.png" alt="TechPioneerIT Logo" class="h-16 w-auto mb-6 object-contain">
+            <img src="/images/logo.png" alt="TechPioneerIT Logo" class="h-16 w-auto mb-6 object-contain bg-white p-2 rounded-lg">
             <p class="text-gray-400 mb-6 leading-relaxed">
               Bringing transparency, automation, and dynamic environments to your business. We deliver high-quality solutions tailored to your needs.
             </p>

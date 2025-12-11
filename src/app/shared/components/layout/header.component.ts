@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
           <!-- Logo -->
           <div class="flex-shrink-0 flex items-center">
             <a routerLink="/" class="flex items-center gap-3">
-              <img src="/images/logo.png" alt="TechPioneerIT Logo" class="h-20 w-auto object-contain">
+              <img src="/images/logo.png" alt="TechPioneerIT Logo" class="h-16 w-auto object-contain">
             </a>
           </div>
 
