@@ -23,36 +23,43 @@ export class CareersComponent {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        this.toastService.show('File size should not exceed 5MB', 'error', 3000);
+      if (file.size > 2 * 1024 * 1024) { // 2MB limit for free tier reliability
+        this.toastService.show('File size should not exceed 2MB for the free tier', 'error', 3000);
         event.target.value = '';
         this.formData.resume = null;
         return;
       }
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.formData.resume = e.target.result; // Base64 string
-      };
-      reader.readAsDataURL(file);
+      this.formData.resume = file;
     }
   }
 
-  async onSubmit(form: any) {
-    if (form.invalid) {
-      Object.keys(form.controls).forEach(key => {
-        form.controls[key].markAsTouched();
-      });
+
+
+  async onSubmit(event: Event) {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+
+    // Basic validation check (since we are bypassing ngSubmit)
+    if (!form.checkValidity()) {
+      this.toastService.show('Please fill in all required fields.', 'error', 3000);
       return;
     }
 
     this.isSubmitting = true;
 
-    const result = await this.emailJSService.sendCareerEmail(this.formData);
+    // Use sendForm which handles attachments natively
+    const result = await this.emailJSService.sendCareerEmail(form);
 
     if (result.success) {
       this.toastService.show(result.message, 'success', 5000);
-      form.resetForm();
+      form.reset(); // Native form reset
+      this.formData = {
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+        resume: null
+      };
     } else {
       this.toastService.show(result.message, 'error', 5000);
     }

@@ -81,11 +81,13 @@
                 </div>
 
                 <div class="bg-gray-50 p-8 rounded-xl">
-                    <form (ngSubmit)="onSubmit(careerForm)" #careerForm="ngForm" class="space-y-6">
+                    <form (submit)="onSubmit($event)" #careerForm="ngForm" class="space-y-6">
+                        <input type="hidden" name="to_email" value="ss7690080@gmail.com">
+
                         <div>
                             <label class="block text-sm font-medium text-secondary mb-2">Full Name <span
                                     class="text-red-500">*</span></label>
-                            <input type="text" [(ngModel)]="formData.name" name="name" required #name="ngModel"
+                            <input type="text" [(ngModel)]="formData.name" name="from_name" required #name="ngModel"
                                 [class.border-red-500]="name.invalid && (name.dirty || name.touched)"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all"
                                 placeholder="Your Name">
@@ -97,7 +99,7 @@
                         <div>
                             <label class="block text-sm font-medium text-secondary mb-2">Email Address <span
                                     class="text-red-500">*</span></label>
-                            <input type="email" [(ngModel)]="formData.email" name="email" required email
+                            <input type="email" [(ngModel)]="formData.email" name="from_email" required email
                                 #email="ngModel"
                                 [class.border-red-500]="email.invalid && (email.dirty || email.touched)"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all"
@@ -111,9 +113,16 @@
 
                         <div>
                             <label class="block text-sm font-medium text-secondary mb-2">Phone Number</label>
-                            <input type="tel" [(ngModel)]="formData.phone" name="phone"
+                            <input type="tel" [(ngModel)]="formData.phone" name="phone" pattern="[0-9]{10,14}"
+                                #phone="ngModel"
+                                [class.border-red-500]="phone.invalid && (phone.dirty || phone.touched)"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all"
                                 placeholder="(123) 456-7890">
+                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                                class="text-red-500 text-sm mt-1">
+                                <span *ngIf="phone.errors?.['pattern']">Please enter a valid phone number (10-14
+                                    digits).</span>
+                            </div>
                         </div>
 
                         <div>

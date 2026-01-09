@@ -6,8 +6,21 @@ import { environment } from '../../../environments/environment';
     providedIn: 'root'
 })
 export class EmailJSService {
+    private isConfigured = false;
+
     constructor() {
-        emailjs.init(environment.emailjs.publicKey);
+        if (environment.emailjs.publicKey && environment.emailjs.publicKey !== 'YOUR_PUBLIC_KEY_HERE') {
+            emailjs.init(environment.emailjs.publicKey);
+            this.isConfigured = true;
+        } else {
+            console.warn('EmailJS not configured: Missing Public Key. Emails will be simulated.');
+        }
+    }
+
+    private isReady(): boolean {
+        return this.isConfigured &&
+            environment.emailjs.serviceId !== 'YOUR_SERVICE_ID_HERE' &&
+            environment.emailjs.contactTemplateId !== 'YOUR_CONTACT_TEMPLATE_ID_HERE';
     }
 
     async sendContactEmail(formData: {
@@ -16,12 +29,27 @@ export class EmailJSService {
         email: string;
         message: string;
     }): Promise<{ success: boolean; message: string }> {
+        // Simulation for development/testing without keys
+        if (!this.isReady()) {
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Fake network delay
+            console.group('EmailJS Simulation (Contact Form)');
+            console.log('Would send to:', 'ss7690080@gmail.com');
+            console.log('Data:', formData);
+            console.warn('Please update src/environments/environment.ts with actual EmailJS keys to send real emails.');
+            console.groupEnd();
+            return {
+                success: true,
+                message: 'Message sent successfully! (Simulation Mode)'
+            };
+        }
+
         try {
             const templateParams = {
                 from_name: `${formData.firstName} ${formData.lastName}`,
                 from_email: formData.email,
                 message: formData.message,
-                to_email: 'ss7690080@gmail.com'
+                to_email: 'ss7690080@gmail.com',
+                reply_to: formData.email
             };
 
             const response = await emailjs.send(
@@ -50,27 +78,29 @@ export class EmailJSService {
         }
     }
 
-    async sendCareerEmail(formData: {
-        name: string;
-        email: string;
-        phone: string;
-        message: string;
-        resume: any;
-    }): Promise<{ success: boolean; message: string }> {
-        try {
-            const templateParams = {
-                from_name: formData.name,
-                from_email: formData.email,
-                phone: formData.phone,
-                message: formData.message,
-                resume: formData.resume, // Pass the Base64 string or file data
-                to_email: 'ss7690080@gmail.com'
+    async sendCareerEmail(form: HTMLFormElement): Promise<{ success: boolean; message: string }> {
+        // Simulation for development/testing without keys
+        if (!this.isReady()) {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            console.group('EmailJS Simulation (Career Form)');
+            console.log('Would send form data to:', 'ss7690080@gmail.com');
+            const formData = new FormData(form);
+            for (const [key, value] of (formData as any).entries()) {
+                console.log(`${key}:`, value);
+            }
+            console.warn('Please update src/environments/environment.ts with actual EmailJS keys to send real emails.');
+            console.groupEnd();
+            return {
+                success: true,
+                message: 'Application submitted successfully! (Simulation Mode)'
             };
+        }
 
-            const response = await emailjs.send(
+        try {
+            const response = await emailjs.sendForm(
                 environment.emailjs.serviceId,
                 environment.emailjs.careerTemplateId,
-                templateParams
+                form
             );
 
             if (response.status === 200) {
@@ -84,11 +114,13 @@ export class EmailJSService {
                     message: 'Failed to send application. Please try again.'
                 };
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('EmailJS Error:', error);
+            // Try to extract a meaningful error message
+            const errorMessage = error?.text || error?.message || 'An error occurred while sending your application.';
             return {
                 success: false,
-                message: 'An error occurred while sending your application. Please try again.'
+                message: `Error: ${errorMessage}. Please try again.`
             };
         }
     }
