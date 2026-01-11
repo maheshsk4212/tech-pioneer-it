@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import emailjs from '@emailjs/browser';
 import { environment } from '../../../environments/environment';
 
@@ -8,13 +9,56 @@ import { environment } from '../../../environments/environment';
 export class EmailJSService {
     private isConfigured = false;
 
-    constructor() {
+    constructor(private http: HttpClient) {
         if (environment.emailjs.publicKey && environment.emailjs.publicKey !== 'YOUR_PUBLIC_KEY_HERE') {
             emailjs.init(environment.emailjs.publicKey);
             this.isConfigured = true;
         } else {
             console.warn('EmailJS not configured: Missing Public Key. Emails will be simulated.');
         }
+    }
+
+    sendCareerApplicationNetlify(formData: FormData): Promise<{ success: boolean; message: string }> {
+        const headers = new HttpHeaders({ 'Accept': 'application/json' });
+
+        // Check if we are on localhost
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.group('Netlify Forms Simulation');
+            console.log('Form Data:', Object.fromEntries((formData as any).entries()));
+            console.log('Note: Netlify Forms only receive data when deployed to Netlify.');
+            console.groupEnd();
+
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve({
+                        success: true,
+                        message: 'Application simulated successfully! (Deploy to Netlify for real submission)'
+                    });
+                }, 1000);
+            });
+        }
+
+        // We need to construct the body URL-encoded for basic fields if not using FormData, 
+        // BUT for files we MUST use FormData and let the browser set the Content-Type to multipart/form-data.
+        // Netlify handles FormData submissions sent to "/" with the form-name attribute.
+
+        return new Promise((resolve, reject) => {
+            this.http.post('/', formData, { headers, responseType: 'text' }).subscribe({
+                next: () => {
+                    resolve({
+                        success: true,
+                        message: 'Your application has been submitted successfully! We will review it and get back to you soon.'
+                    });
+                },
+                error: (error) => {
+                    console.error('Netlify Form Error:', error);
+                    resolve({
+                        success: false,
+                        message: 'Failed to send application. Please try again.'
+                    });
+                }
+            });
+        });
     }
 
     private isReady(): boolean {
