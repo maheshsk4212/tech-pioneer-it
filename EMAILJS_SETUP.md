@@ -12,7 +12,7 @@ The free tier allows **200 emails per month**, which is perfect for development 
 1. In the EmailJS Dashboard, go to **Email Services** on the left.
 2. Click **Add New Service**.
 3. Select **Gmail** (or your preferred provider).
-4. Click **Connect Account** and login with the email where you want to receive messages (`ss7690080@gmail.com`).
+4. Click **Connect Account** and login with the email where you want to receive messages (`info@techpioneerit.com`).
 5. Click **Create Service**.
 6. **Copy the "Service ID"** (e.g., `service_xyz123`). You will need this later.
 

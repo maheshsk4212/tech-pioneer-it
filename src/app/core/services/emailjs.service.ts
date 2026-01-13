@@ -77,7 +77,7 @@ export class EmailJSService {
         if (!this.isReady()) {
             await new Promise(resolve => setTimeout(resolve, 1500)); // Fake network delay
             console.group('EmailJS Simulation (Contact Form)');
-            console.log('Would send to:', 'ss7690080@gmail.com');
+            console.log('Would send to:', 'info@techpioneerit.com');
             console.log('Data:', formData);
             console.warn('Please update src/environments/environment.ts with actual EmailJS keys to send real emails.');
             console.groupEnd();
@@ -92,7 +92,7 @@ export class EmailJSService {
                 from_name: `${formData.firstName} ${formData.lastName}`,
                 from_email: formData.email,
                 message: formData.message,
-                to_email: 'ss7690080@gmail.com',
+                to_email: 'info@techpioneerit.com',
                 reply_to: formData.email
             };
 
@@ -127,7 +127,7 @@ export class EmailJSService {
         if (!this.isReady()) {
             await new Promise(resolve => setTimeout(resolve, 1500));
             console.group('EmailJS Simulation (Career Form)');
-            console.log('Would send form data to:', 'ss7690080@gmail.com');
+            console.log('Would send form data to:', 'info@techpioneerit.com');
             const formData = new FormData(form);
             for (const [key, value] of (formData as any).entries()) {
                 console.log(`${key}:`, value);
